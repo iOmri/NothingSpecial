@@ -10,7 +10,7 @@ namespace Boom
 {
     public class MapObjectEx
     {
-        public MapObject MapObject { get; set; }
+        MapObject MapObject { get; set; }
 
         /// <summary>
         /// Created a new MapObjectEx instance, initialized with wrapped MapObject instance
