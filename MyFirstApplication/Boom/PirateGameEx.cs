@@ -4,11 +4,11 @@ namespace Boom
 {
     public class PirateGameEx
     {
-        PirateGame game;
+        public PirateGame Game { get; set; }
 
         public PirateGameEx(PirateGame pirateGame)
         {
-            game = pirateGame;
+            Game = pirateGame;
         }
     }
 }
