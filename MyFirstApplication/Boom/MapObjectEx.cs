@@ -1,16 +1,12 @@
-﻿using System;
+﻿using Pirates;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Pirates;
 
 namespace Boom
 {
     public class MapObjectEx
     {
-        MapObject MapObject { get; set; }
+        public MapObject MapObject { get; set; }
 
         /// <summary>
         /// Created a new MapObjectEx instance, initialized with wrapped MapObject instance
@@ -46,7 +42,7 @@ namespace Boom
         }
 
         /// <summary>
-        /// Sorts MapObjectEx list by each item's distance to this instance
+        /// Sorts MapObjectEx list by each item's distance to this instance. The sort is ascending
         /// </summary>
         /// <param name="objects">MapObject list</param>
         /// <returns>Sorted list by distance to this instance</returns>
@@ -55,19 +51,11 @@ namespace Boom
             // Don't change the original list
             List<MapObjectEx> copy = new List<MapObjectEx>(objects);
 
-            // Bubble sort by distance from this map object
-            for(int i = 0; i < copy.Count; i++)
+            // Sort ascending by distance
+            copy.Sort(delegate (MapObjectEx a, MapObjectEx b)
             {
-                for(int j = 0; j < copy.Count - i - 1; j++)
-                {
-                    if(Distance(copy[j]) > Distance(copy[j+1]))
-                    {
-                        MapObjectEx temp = copy[j];
-                        copy[j] = copy[j + 1];
-                        copy[j + 1] = temp;
-                    }
-                }
-            }
+                return Distance(a).CompareTo(Distance(b));
+            });
 
             return copy;
         }
