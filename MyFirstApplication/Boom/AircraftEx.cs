@@ -75,5 +75,11 @@ namespace Boom
 
             return true;
         }
+
+        private bool CheckForThreats()
+        {
+            List<PirateEx> livingEnemies = GameManager.CurrentTurn.EnemyLivingPirates;
+
+        }
     }
 }
