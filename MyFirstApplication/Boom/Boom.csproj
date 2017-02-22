@@ -45,8 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AircraftEx.cs" />
+    <Compile Include="DroneEx.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="MapObjectEx.cs" />
+    <Compile Include="PirateEx.cs" />
     <Compile Include="PirateGameEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
