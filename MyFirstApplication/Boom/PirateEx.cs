@@ -1,15 +1,19 @@
 ﻿using Pirates;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Boom
 {
     public class PirateEx : AircraftEx
     {
-        public bool CanAttack { get; set; }
+        private bool canAttack;
+
+        public bool CanAttack
+        {
+            get { return canAttack && CanMove; }
+            set { canAttack = value; }
+        }
+
         public Pirate Pirate { get; set; }
 
         /// <summary>
@@ -20,8 +24,7 @@ namespace Boom
             :base(pirate)
         {
             Pirate = pirate;
-            /// TODO:
-            /// Set CanAttack to true if there are nearby enemies
+            canAttack = GetAttackOptions().Count > 0;
         }
 
         /// <summary>
@@ -41,13 +44,42 @@ namespace Boom
         /// <returns>Attack result</returns>
         public bool Attack(AircraftEx target)
         {
+            // Return false if attack cannot be made
             if (!CanAttack)
                 return false;
 
+            // Return false if the given target is not within the range
+            if (!InAttackRange(target))
+                return false;
+
+            // Attack
             GameManager.CurrentTurn.Game.Attack(Pirate, target.Aircraft);
             CanAttack = false;
             CanMove = false;
             return true;
         }
+
+        /// <summary>
+        /// Checks if a map object is within the attack range of the pirate
+        /// </summary>
+        /// <param name="target">The attack target</param>
+        /// <returns>true if the target is within the range, else false</returns>
+        public bool InAttackRange(MapObjectEx target)
+        {
+            return Pirate.InAttackRange(target.MapObject);
+        }
+
+        /// <summary>
+        /// Returns a list of all living enemy aircrafts that are within the attack range
+        /// </summary>
+        /// <returns>AircraftEx list</returns>
+        public List<AircraftEx> GetAttackOptions()
+        {
+            return (from aircraft in GameManager.CurrentTurn.EnemyLivingAircrafts
+                    where InAttackRange(aircraft)
+                    select aircraft).ToList();
+        }
+
+
     }
 }
