@@ -2,7 +2,7 @@
 
 namespace Boom
 {
-    public class DroneEx : MapObjectEx
+    public class DroneEx : AircraftEx
     {
         public Drone Drone { get; set; }
 
