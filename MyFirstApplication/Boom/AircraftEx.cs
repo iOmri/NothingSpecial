@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Pirates;
+using System.Linq;
 
 namespace Boom
 {
@@ -11,7 +8,7 @@ namespace Boom
     {
         public Aircraft Aircraft { get; set; }
         public bool CanMove { get; set; }
-        public bool IsThreatened { get; set; }
+        public bool IsThreatened { get; }
         public MapObjectEx FinalDestination { get; set; }
 
         /// <summary>
@@ -23,13 +20,8 @@ namespace Boom
         {
             Aircraft = aircraft;
             CanMove = true;
-
-            /// TODO:
-            /// Check if there are any threats
-            /// Prerequisites:
-            /// PirateGameEx must contain enemy pirates list
-            int attackRadius = GameManager.CurrentTurn.Game.GetAttackRange();
-            
+            FinalDestination = null;
+            IsThreatened = GetThreateningPirates().Count() > 0;            
         }
 
         /// <summary>
@@ -42,7 +34,7 @@ namespace Boom
         }
 
         /// <summary>
-        /// Makes a step towards a destination
+        /// Makes a step towards a destination.
         /// Updates CanMove to false if movement occures
         /// </summary>
         /// <param name="destination">The final destination</param>
@@ -76,10 +68,15 @@ namespace Boom
             return true;
         }
 
-        private bool CheckForThreats()
+        /// <summary>
+        /// Gets the list of threatening enemy pirates
+        /// </summary>
+        /// <returns>PirateEx list</returns>
+        public List<PirateEx> GetThreateningPirates()
         {
-            List<PirateEx> livingEnemies = GameManager.CurrentTurn.EnemyLivingPirates;
-
+            return (from enemy in GameManager.CurrentTurn.EnemyLivingPirates
+                    where enemy.InAttackRange(this)
+                    select enemy).ToList();
         }
     }
 }
