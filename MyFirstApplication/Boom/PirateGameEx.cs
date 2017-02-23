@@ -62,6 +62,22 @@ namespace Boom
         {
             return new PirateGameEx(pirateGame);
         }
+        
+        /// <summary>
+        /// Converts a list of type TSource into list of type TDest
+        /// while TSource derives from TDest
+        /// </summary>
+        /// <typeparam name="TSource">The item type of the source list</typeparam>
+        /// <typeparam name="TDest">The item type of the destination list</typeparam>
+        /// <param name="list">A list of type TSource</param>
+        /// <returns>A list of type TDest</returns>
+        public static List<TDest> ConvertList<TSource, TDest>(List<TSource> list)
+            where TSource : TDest
+        {
+            List<TDest> result = new List<TDest>();
+            list.ForEach((item) => result.Add(item));
+            return result;
+        }
 
         /// <summary>
         /// Creates an AircraftEx list from Aircraft list
@@ -94,22 +110,6 @@ namespace Boom
         {
             return (from pirate in list
                     select new PirateEx(pirate)).ToList();
-        }
-
-        /// <summary>
-        /// Converts a list of type TSource into list of type TDest
-        /// while TSource derives from TDest
-        /// </summary>
-        /// <typeparam name="TSource">The item type of the source list</typeparam>
-        /// <typeparam name="TDest">The item type of the destination list</typeparam>
-        /// <param name="list">A list of type TSource</param>
-        /// <returns>A list of type TDest</returns>
-        private List<TDest> ConvertList<TSource, TDest>(List<TSource> list)
-            where TSource : TDest
-        {
-            List<TDest> result = new List<TDest>();
-            list.ForEach((item) => result.Add(item));
-            return result;
         }
     }
 }
