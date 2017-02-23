@@ -24,9 +24,13 @@ namespace Boom
                                   select enemy).ToList();
         }
 
+        /// <summary>
+        /// Gets my closest city to the island
+        /// </summary>
+        /// <returns>CityEx object</returns>
         public CityEx GetClosestCity()
         {
-
+            return GetClosest(PirateGameEx.ConvertList<CityEx, MapObjectEx>(GameManager.CurrentTurn.MyCities)) as CityEx;
         }
     }
 }
