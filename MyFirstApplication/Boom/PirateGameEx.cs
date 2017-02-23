@@ -17,10 +17,19 @@ namespace Boom
         public List<AircraftEx> MyLivingAircrafts { get; set; }
         public List<AircraftEx> EnemyAircrafts { get; set; }
         public List<AircraftEx> EnemyLivingAircrafts { get; set; }
+        
+        // City lists
+        public List<CityEx> MyCities { get; set; }
+        public List<CityEx> EnemyCities { get; set; }
 
         // Drone lists
         public List<DroneEx> MyLivingDrones { get; set; }
         public List<DroneEx> EnemyLivingDrones { get; set; }
+        
+        // Island lists
+        public List<IslandEx> MyIslands { get; set; }
+        public List<IslandEx> NeutralIslands { get; set; }
+        public List<IslandEx> EnemyIslands { get; set; }
 
         // Pirate lists
         public List<PirateEx> MyPirates { get; set; }
@@ -43,9 +52,18 @@ namespace Boom
             EnemyPirates = CreateExList(Game.GetAllEnemyPirates());
             EnemyLivingPirates = CreateExList(Game.GetEnemyLivingPirates());
 
+            // IslandEx lists
+            MyIslands = CreateExList(Game.GetMyIslands());
+            NeutralIslands = CreateExList(Game.GetNeutralIslands());
+            EnemyIslands = CreateExList(Game.GetEnemyIslands());
+
             // DroneEx lists
             MyLivingDrones = CreateExList(Game.GetMyLivingDrones());
             EnemyLivingDrones = CreateExList(Game.GetEnemyLivingDrones());
+
+            // CityEx lists
+            MyCities = CreateExList(Game.GetMyCities());
+            EnemyCities = CreateExList(Game.GetEnemyCities());
 
             // AircraftEx lists
             MyLivingAircrafts = CreateExList(Game.GetMyLivingAircrafts());
@@ -91,6 +109,17 @@ namespace Boom
         }
 
         /// <summary>
+        /// Creates a CityEx list from City list
+        /// </summary>
+        /// <param name="list">A City list</param>
+        /// <returns>A CityEx list</returns>
+        private List<CityEx> CreateExList(List<City> list)
+        {
+            return (from city in list
+                    select new CityEx(city)).ToList();
+        }
+
+        /// <summary>
         /// Creates an DroneEx list from Drone list
         /// </summary>
         /// <param name="list">A Drone list</param>
@@ -99,6 +128,17 @@ namespace Boom
         {
             return (from drone in list
                     select new DroneEx(drone)).ToList();
+        }
+
+        /// <summary>
+        /// Creates an IslandEx list from Island list
+        /// </summary>
+        /// <param name="list">An Island list</param>
+        /// <returns>An IslandEx list</returns>
+        private List<IslandEx> CreateExList(List<Island> list)
+        {
+            return (from island in list
+                    select new IslandEx(island)).ToList();
         }
 
         /// <summary>
