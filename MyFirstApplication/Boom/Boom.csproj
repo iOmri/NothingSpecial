@@ -47,6 +47,7 @@
     <Compile Include="CityEx.cs" />
     <Compile Include="DroneEx.cs" />
     <Compile Include="GameManager.cs" />
+    <Compile Include="IslandEx.cs" />
     <Compile Include="MapObjectEx.cs" />
     <Compile Include="PirateEx.cs" />
     <Compile Include="PirateGameEx.cs" />
