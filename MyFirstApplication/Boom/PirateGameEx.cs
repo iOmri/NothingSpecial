@@ -17,10 +17,19 @@ namespace Boom
         public List<AircraftEx> MyLivingAircrafts { get; set; }
         public List<AircraftEx> EnemyAircrafts { get; set; }
         public List<AircraftEx> EnemyLivingAircrafts { get; set; }
+        
+        // City lists
+        public List<CityEx> MyCities { get; set; }
+        public List<CityEx> EnemyCities { get; set; }
 
         // Drone lists
         public List<DroneEx> MyLivingDrones { get; set; }
         public List<DroneEx> EnemyLivingDrones { get; set; }
+        
+        // Island lists
+        public List<IslandEx> MyIslands { get; set; }
+        public List<IslandEx> NeutralIslands { get; set; }
+        public List<IslandEx> EnemyIslands { get; set; }
 
         // Pirate lists
         public List<PirateEx> MyPirates { get; set; }
@@ -43,9 +52,18 @@ namespace Boom
             EnemyPirates = CreateExList(Game.GetAllEnemyPirates());
             EnemyLivingPirates = CreateExList(Game.GetEnemyLivingPirates());
 
+            // IslandEx lists
+            MyIslands = CreateExList(Game.GetMyIslands());
+            NeutralIslands = CreateExList(Game.GetNeutralIslands());
+            EnemyIslands = CreateExList(Game.GetEnemyIslands());
+
             // DroneEx lists
             MyLivingDrones = CreateExList(Game.GetMyLivingDrones());
             EnemyLivingDrones = CreateExList(Game.GetEnemyLivingDrones());
+
+            // CityEx lists
+            MyCities = CreateExList(Game.GetMyCities());
+            EnemyCities = CreateExList(Game.GetEnemyCities());
 
             // AircraftEx lists
             MyLivingAircrafts = CreateExList(Game.GetMyLivingAircrafts());
@@ -62,6 +80,22 @@ namespace Boom
         {
             return new PirateGameEx(pirateGame);
         }
+        
+        /// <summary>
+        /// Converts a list of type TSource into list of type TDest
+        /// while TSource derives from TDest
+        /// </summary>
+        /// <typeparam name="TSource">The item type of the source list</typeparam>
+        /// <typeparam name="TDest">The item type of the destination list</typeparam>
+        /// <param name="list">A list of type TSource</param>
+        /// <returns>A list of type TDest</returns>
+        public static List<TDest> ConvertList<TSource, TDest>(List<TSource> list)
+            where TSource : TDest
+        {
+            List<TDest> result = new List<TDest>();
+            list.ForEach((item) => result.Add(item));
+            return result;
+        }
 
         /// <summary>
         /// Creates an AircraftEx list from Aircraft list
@@ -72,6 +106,17 @@ namespace Boom
         {
             return (from aircraft in list
                     select new AircraftEx(aircraft)).ToList();
+        }
+
+        /// <summary>
+        /// Creates a CityEx list from City list
+        /// </summary>
+        /// <param name="list">A City list</param>
+        /// <returns>A CityEx list</returns>
+        private List<CityEx> CreateExList(List<City> list)
+        {
+            return (from city in list
+                    select new CityEx(city)).ToList();
         }
 
         /// <summary>
@@ -86,6 +131,17 @@ namespace Boom
         }
 
         /// <summary>
+        /// Creates an IslandEx list from Island list
+        /// </summary>
+        /// <param name="list">An Island list</param>
+        /// <returns>An IslandEx list</returns>
+        private List<IslandEx> CreateExList(List<Island> list)
+        {
+            return (from island in list
+                    select new IslandEx(island)).ToList();
+        }
+
+        /// <summary>
         /// Creates an PirateEx list from Pirate list
         /// </summary>
         /// <param name="list">A Pirate list</param>
@@ -94,22 +150,6 @@ namespace Boom
         {
             return (from pirate in list
                     select new PirateEx(pirate)).ToList();
-        }
-
-        /// <summary>
-        /// Converts a list of type TSource into list of type TDest
-        /// while TSource derives from TDest
-        /// </summary>
-        /// <typeparam name="TSource">The item type of the source list</typeparam>
-        /// <typeparam name="TDest">The item type of the destination list</typeparam>
-        /// <param name="list">A list of type TSource</param>
-        /// <returns>A list of type TDest</returns>
-        private List<TDest> ConvertList<TSource, TDest>(List<TSource> list)
-            where TSource : TDest
-        {
-            List<TDest> result = new List<TDest>();
-            list.ForEach((item) => result.Add(item));
-            return result;
         }
     }
 }
