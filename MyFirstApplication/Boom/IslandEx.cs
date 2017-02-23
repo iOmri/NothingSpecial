@@ -1,0 +1,6 @@
+﻿namespace Boom
+{
+    class IslandEx
+    {
+    }
+}
